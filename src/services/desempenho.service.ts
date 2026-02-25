@@ -72,6 +72,21 @@ class DesempenhoService {
     return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
   }
 
+  /**
+   * Obter TODOS os dados brutos da planilha
+   */
+  async getAllRawData(periodo: Periodo = '30d'): Promise<any[]> {
+    try {
+      const response = await api.get(`/sheets/all`, {
+        params: { periodo }
+      });
+      return response.data.data || [];
+    } catch (error) {
+      console.error('Erro ao buscar dados brutos:', error);
+      return [];
+    }
+  }
+
   async getPerformance(periodo: Periodo = '30d'): Promise<PerformanceMetrics | null> {
     try {
       const response = await api.get(`/sheets/performance`, {
